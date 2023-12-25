@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 21:19:33 by syonekur          #+#    #+#             */
-/*   Updated: 2023/12/25 15:06:28 by syonekur         ###   ########.fr       */
+/*   Updated: 2023/12/25 16:55:59 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,11 @@ void	my_execve(char *argv_arg)
 		free_memory(cmd);
 		return ;
 	}
-	execve(cmdpath, cmd, NULL);
+	if (execve(cmdpath, cmd, environ) == -1)
+	{
+		perror("execve failed");
+		exit(EXIT_FAILURE);
+	}
 	free(cmdpath);
 	free_memory(cmd);
 }
@@ -98,7 +102,7 @@ int	first_child_process(int infile_fd, int pipe_fd[2], char **argv)
 
 int	second_child_process(int outfile_fd, int pipe_fd[2], char **argv)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)

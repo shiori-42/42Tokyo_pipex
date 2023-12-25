@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:18:15 by syonekur          #+#    #+#             */
-/*   Updated: 2023/12/25 15:10:07 by syonekur         ###   ########.fr       */
+/*   Updated: 2023/12/25 17:24:23 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,12 @@ int	check_argc(int argc)
 
 int	main(int argc, char *argv[])
 {
-	int pipe_fd[2];
-	int infile_fd;
-	int outfile_fd;
+	int	pipe_fd[2];
+	int	infile_fd;
+	int	outfile_fd;
+	int	status;
+	int	pid1;
+	int	pid2;
 
 	if (check_argc(argc) == -1)
 		return (-1);
@@ -80,7 +83,9 @@ int	main(int argc, char *argv[])
 	if (pipe(pipe_fd) == -1)
 		return (-1);
 	first_child_process(infile_fd, pipe_fd, argv);
-	second_child_process(outfile_fd, pipe_fd, argv);
+	waitpid(-1, &status, 0);
+	second_child_process(infile_fd, pipe_fd, argv);
+	waitpid(-1, &status, 0);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	return (0);
