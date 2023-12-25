@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 18:32:59 by syonekur          #+#    #+#             */
-/*   Updated: 2023/12/24 21:56:00 by syonekur         ###   ########.fr       */
+/*   Updated: 2023/12/25 15:07:14 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ void		mypath_execve(char *argv_arg);
 int			first_child_process(int infile_fd, int pipe_fd[2], char **argv);
 int			second_child_process(int outfile_fd, int pipe_fd[2], char **argv);
 void		free_memory(char **str);
+char		*cat_cmd_path(char *path, char *cmd);
 
 #endif

@@ -6,25 +6,21 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 21:19:33 by syonekur          #+#    #+#             */
-/*   Updated: 2023/12/24 21:54:29 by syonekur         ###   ########.fr       */
+/*   Updated: 2023/12/25 15:06:28 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*find_path_list(void)
+char	*find_envpath_list(void)
 {
-	int		i;
-	char	*path_list;
+	int	i;
 
 	i = 0;
 	while (environ[i])
 	{
 		if (ft_strncmp(environ[i], "PATH=", 5) == 0)
-		{
-			path_list = environ[i] + 5;
-			return (path_list);
-		}
+			return (environ[i] + 5);
 		i++;
 	}
 	return (NULL);
@@ -33,16 +29,20 @@ char	*find_path_list(void)
 char	*find_cmd_path(char *cmd)
 {
 	char	**path;
+	char	*cmd_path_list;
 	char	*cmd_path;
 	int		i;
 
 	i = 0;
-	if (find_path_list() == NULL)
+	cmd_path_list = find_envpath_list();
+	if (!cmd_path_list)
 		return (NULL);
-	path = ft_split(find_path_list(), ':');
+	path = ft_split(cmd_path_list, ':');
+	if (!path)
+		return (NULL);
 	while (path[i])
 	{
-		cmd_path = ft_strjoin(path[i], ft_strjoin("/", cmd));
+		cmd_path = cat_cmd_path(path[i], cmd);
 		if (cmd_path == NULL)
 			return (NULL);
 		if (access(cmd_path, X_OK) == 0)
@@ -50,10 +50,11 @@ char	*find_cmd_path(char *cmd)
 		free(cmd_path);
 		i++;
 	}
+	free(path);
 	return (NULL);
 }
 
-void	mypath_execve(char *argv_arg)
+void	my_execve(char *argv_arg)
 {
 	char	**cmd;
 	char	*cmdpath;
@@ -80,7 +81,7 @@ int	first_child_process(int infile_fd, int pipe_fd[2], char **argv)
 
 	pid = fork();
 	if (pid == -1)
-		return (EXIT_FAILURE);
+		return (-1);
 	else if (pid == 0)
 	{
 		dup2(infile_fd, STDIN_FILENO);
@@ -88,7 +89,7 @@ int	first_child_process(int infile_fd, int pipe_fd[2], char **argv)
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
-		mypath_execve(argv[2]);
+		my_execve(argv[2]);
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
@@ -97,13 +98,12 @@ int	first_child_process(int infile_fd, int pipe_fd[2], char **argv)
 
 int	second_child_process(int outfile_fd, int pipe_fd[2], char **argv)
 {
-	pid_t	pid;
+	pid_t pid;
 
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("fork");
-		return (EXIT_FAILURE);
+		return (-1);
 	}
 	else if (pid == 0)
 	{
@@ -112,7 +112,7 @@ int	second_child_process(int outfile_fd, int pipe_fd[2], char **argv)
 		close(pipe_fd[1]);
 		dup2(outfile_fd, STDOUT_FILENO);
 		close(outfile_fd);
-		mypath_execve(argv[3]);
+		my_execve(argv[3]);
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
