@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 21:19:33 by syonekur          #+#    #+#             */
-/*   Updated: 2023/12/29 15:53:23 by syonekur         ###   ########.fr       */
+/*   Updated: 2023/12/29 16:38:36 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ void	my_execve(char *argv_arg)
 	if (execve(cmdpath, cmd, environ) == -1)
 	{
 		perror("execve failed");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 	free(cmdpath);
 	free_memory(cmd);
 }
 
-void	do_child_first(int infile_fd, int pipe_fd[2], char **argv)
+void	first_child(int infile_fd, int pipe_fd[2], char **argv)
 {
 	dup2(infile_fd, STDIN_FILENO);
 	close(infile_fd);
@@ -91,7 +91,7 @@ void	do_child_first(int infile_fd, int pipe_fd[2], char **argv)
 	exit(EXIT_FAILURE);
 }
 
-void	do_child(int outfile_fd, int pipe_fd[2], char **argv)
+void	last_child(int outfile_fd, int pipe_fd[2], char **argv)
 {
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
@@ -103,27 +103,24 @@ void	do_child(int outfile_fd, int pipe_fd[2], char **argv)
 	exit(EXIT_FAILURE);
 }
 
-int	fork_cmd(int iofile_fd, int pipe_fd[2], char **argv, int first)
+void	fork_cmd(int iofile_fd, int pipe_fd[2], char **argv,int argv_index)
 {
 	pid_t	pid;
-//	int		status;
 
 	pid = fork();
 	if (pid < 0)
 	{
-		perror(NULL);
+		perror("fork");
 		exit(1);
 	}
 	else if (pid == 0)
 	{
-		if (first == 1)
-			do_child_first(iofile_fd, pipe_fd, argv);
-		else if (first == 0)
-			do_child(iofile_fd, pipe_fd, argv);
-		perror(NULL);
+		if (argv_index == 1)
+			first_child(iofile_fd, pipe_fd, argv);
+		else if (argv_index == 0)
+			last_child(iofile_fd, pipe_fd, argv);
+		perror("execve");
 		exit(1);
 	}
-//	else if (pid > 0)
-//		waitpid(pid, &status, 0);
-	return (-1);
+	return;
 }

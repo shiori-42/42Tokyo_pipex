@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:18:15 by syonekur          #+#    #+#             */
-/*   Updated: 2023/12/29 15:53:22 by syonekur         ###   ########.fr       */
+/*   Updated: 2023/12/29 16:43:35 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,8 @@ int	main(int argc, char *argv[])
 	int	pipe_fd[2];
 	int	infile_fd;
 	int	outfile_fd;
-	// add int first
-	int first;
-	int		status;
+	int	status;
+	int argv_index;
 
 	if (argc < 5)
 		return (-1);
@@ -77,22 +76,22 @@ int	main(int argc, char *argv[])
 	outfile_fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (check_io_fd(infile_fd, outfile_fd) == -1)
 		return (-1);
-	if (pipe(pipe_fd) == -1)
-		return (-1);
-	// first_child_process(infile_fd, pipe_fd, argv);
-	// second_child_process(outfile_fd, pipe_fd, argv);
-	//add fork_cmd
-	first=1;
-	fork_cmd(infile_fd, pipe_fd, argv,first);
-	first=0;
-	fork_cmd(outfile_fd, pipe_fd, argv,first);
+	if (pipe(pipe_fd) < 0)
+	{
+		perror("pipe");
+		exit(1);
+	}
+	argv_index = 1;
+	fork_cmd(infile_fd, pipe_fd, argv, argv_index);
+	argv_index = 0;
+	fork_cmd(outfile_fd, pipe_fd, argv, argv_index);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
-  while (1)
-  {
-    if (waitpid(-1, &status, 0) == -1)
-      break ;
-  }
-  (void)status;
+	while (1)
+	{
+		if (waitpid(-1, &status, 0) == -1)
+			break ;
+	}
+	(void)status;
 	return (0);
 }
