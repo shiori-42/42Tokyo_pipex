@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:18:15 by syonekur          #+#    #+#             */
-/*   Updated: 2023/12/29 14:09:21 by syonekur         ###   ########.fr       */
+/*   Updated: 2023/12/29 14:12:53 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,13 @@ int	check_io_fd(int infile_fd, int outfile_fd)
 	return (0);
 }
 
-int	check_argc(int argc)
-{
-	if (argc != 5)
-		return (-1);
-	return (0);
-}
-
 int	main(int argc, char *argv[])
 {
 	int	pipe_fd[2];
 	int	infile_fd;
 	int	outfile_fd;
 
-	if (check_argc(argc) == -1)
+	if (argc < 5)
 		return (-1);
 	infile_fd = open(argv[1], O_RDONLY);
 	outfile_fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
