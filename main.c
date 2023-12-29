@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:18:15 by syonekur          #+#    #+#             */
-/*   Updated: 2023/12/29 14:12:53 by syonekur         ###   ########.fr       */
+/*   Updated: 2023/12/29 15:53:22 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ int	main(int argc, char *argv[])
 	int	pipe_fd[2];
 	int	infile_fd;
 	int	outfile_fd;
+	// add int first
+	int first;
+	int		status;
 
 	if (argc < 5)
 		return (-1);
@@ -76,9 +79,20 @@ int	main(int argc, char *argv[])
 		return (-1);
 	if (pipe(pipe_fd) == -1)
 		return (-1);
-	first_child_process(infile_fd, pipe_fd, argv);
-	second_child_process(outfile_fd, pipe_fd, argv);
+	// first_child_process(infile_fd, pipe_fd, argv);
+	// second_child_process(outfile_fd, pipe_fd, argv);
+	//add fork_cmd
+	first=1;
+	fork_cmd(infile_fd, pipe_fd, argv,first);
+	first=0;
+	fork_cmd(outfile_fd, pipe_fd, argv,first);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
+  while (1)
+  {
+    if (waitpid(-1, &status, 0) == -1)
+      break ;
+  }
+  (void)status;
 	return (0);
 }
