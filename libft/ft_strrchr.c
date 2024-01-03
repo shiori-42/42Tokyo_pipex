@@ -6,15 +6,15 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 20:35:23 by syonekur          #+#    #+#             */
-/*   Updated: 2023/10/03 11:27:14 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/03 17:06:32 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strrchr(const char *s, int c)
+char	*ft_strrchr( char *s, int c)
 {
-	const char	*last_pos;
+	 char	*last_pos;
 
 	last_pos = NULL;
 	while (*s)

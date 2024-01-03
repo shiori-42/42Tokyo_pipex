@@ -6,13 +6,13 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 21:42:41 by syonekur          #+#    #+#             */
-/*   Updated: 2023/10/10 20:50:40 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/03 17:06:32 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup( char *s1)
 {
 	int		i;
 	char	*ptr;

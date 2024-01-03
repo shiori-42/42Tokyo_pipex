@@ -6,13 +6,13 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 19:25:48 by syonekur          #+#    #+#             */
-/*   Updated: 2023/10/10 22:57:27 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/03 17:06:32 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static long	check_overflow_num(const char *s, int sign)
+static long	check_overflow_num( char *s, int sign)
 {
 	long	ans;
 	long	max_div_ten;
@@ -37,7 +37,7 @@ static long	check_overflow_num(const char *s, int sign)
 	return (ans * sign);
 }
 
-int	ft_atoi(const char *str)
+int	ft_atoi( char *str)
 {
 	int		sign;
 	long	ans;

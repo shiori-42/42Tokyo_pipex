@@ -6,13 +6,13 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 22:14:23 by syonekur          #+#    #+#             */
-/*   Updated: 2023/10/04 11:45:03 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/03 17:06:32 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void	*ft_memcpy(void *dest,  void *src, size_t n)
 {
 	unsigned char	*dest_ptr;
 	unsigned char	*src_ptr;

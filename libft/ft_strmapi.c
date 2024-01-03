@@ -6,13 +6,13 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 21:35:15 by syonekur          #+#    #+#             */
-/*   Updated: 2023/10/10 21:23:56 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/03 17:06:32 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+char	*ft_strmapi(char  *s, char (*f)(unsigned int, char))
 {
 	int		i;
 	char	*ptr;
@@ -49,7 +49,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 // {
 // 	char	*str;
 
-// 	const char s1[] = "aaaaaaaaaaaaaaaa";
+// 	 char s1[] = "aaaaaaaaaaaaaaaa";
 // 	(void)argc;
 // 	if (argv[1][0] == '1')
 // 		str = ft_strmapi(s1, &aaaaa);

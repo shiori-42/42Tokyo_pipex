@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 19:46:49 by syonekur          #+#    #+#             */
-/*   Updated: 2023/10/10 22:58:27 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/03 17:06:32 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_itoa(int c)
 	int			sign;
 	int			size;
 	char		*ptr;
-	const char	*s1;
+	 char	*s1;
 
 	if (c == -2147483648)
 	{

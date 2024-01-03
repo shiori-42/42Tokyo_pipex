@@ -6,13 +6,13 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 13:51:56 by syonekur          #+#    #+#             */
-/*   Updated: 2023/10/10 11:58:40 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/03 17:06:32 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	cnt_words(char const *s, char sep)
+static int	cnt_words(char  *s, char sep)
 {
 	int	cnt;
 
@@ -42,14 +42,14 @@ static char	*free_words(char **words, int i)
 	return (0);
 }
 
-static const char	*next_word(const char *s, char sep)
+static  char	*next_word( char *s, char sep)
 {
 	while (*s && *s == sep)
 		s++;
 	return (s);
 }
 
-static size_t	word_len(const char *s, char c)
+static size_t	word_len( char *s, char c)
 {
 	size_t	len;
 
@@ -59,7 +59,7 @@ static size_t	word_len(const char *s, char c)
 	return (len);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char  *s, char c)
 {
 	char	**result;
 	int		i;
@@ -92,7 +92,7 @@ char	**ft_split(char const *s, char c)
 // {
 // 	char	**tab;
 
-// 	// char const	*s1;
+// 	// char 	*s1;
 // 	// char		set;
 // 	// char		**splited;
 // 	// s1 = "Hexllo Worlxd,Hxello evxeryoxne!";

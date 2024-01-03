@@ -1,40 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/22 19:58:33 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/03 17:06:32 by syonekur         ###   ########.fr       */
+/*   Created: 2023/10/11 23:09:03 by syonekur          #+#    #+#             */
+/*   Updated: 2024/01/03 17:19:33 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-char	*ft_strchr( char *s, int c)
-{
-	while (*s)
-	{
-		if (*s == (unsigned char)c)
-		{
-			return ((char *)s);
-		}
-		s++;
-	}
-	if (c == '\0')
-		return ((char *)s);
-	return (NULL);
-}
+# include "libft.h"
+# include <fcntl.h>
+# include <limits.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
-// int	main(void)
-// {
-// 	char test[20] = "abcdefghijgk";
-// 	char *p, *q;
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
-// 	p = ft_strchr(test, 'g');
-// 	q = ft_strchr(test, 0);
-// 	printf("test;g:%s\n", p);
-// 	printf("test0:%s\n", q);
-// 	return (0);
-// }
+#endif

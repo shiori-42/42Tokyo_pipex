@@ -6,13 +6,13 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 12:09:15 by syonekur          #+#    #+#             */
-/*   Updated: 2023/10/03 20:45:54 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/03 17:06:32 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	is_set(char c, char const *set)
+static int	is_set(char c, char  *set)
 {
 	while (*set)
 	{
@@ -23,10 +23,10 @@ static int	is_set(char c, char const *set)
 	return (0);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char  *s1, char  *set)
 {
-	const char	*start;
-	const char	*end;
+	 char	*start;
+	 char	*end;
 
 	if (s1 == NULL || set == NULL)
 		return (NULL);
@@ -43,8 +43,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 // int	main(void)
 // {
-// 	char const	*s1;
-// 	char const	*set;
+// 	char 	*s1;
+// 	char 	*set;
 // 	char		*trimmed;
 
 // 	s1 = "yzxHello Worldxxz";
