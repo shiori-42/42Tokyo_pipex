@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:43:25 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/03 16:27:49 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/03 18:38:17 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	do_child_process(int *pipe_fd, t_fd iofd, char **argv,
 	else
 	{
 		dup2(iofd.prev_fd, STDIN_FILENO);
+		close(iofd.prev_fd);
 	}
 	if (cmd_info.argv_index < cmd_info.argc - 2)
 	{
@@ -33,7 +34,6 @@ void	do_child_process(int *pipe_fd, t_fd iofd, char **argv,
 	{
 		dup2(iofd.outfile_fd, STDOUT_FILENO);
 		close(iofd.outfile_fd);
-		close(iofd.prev_fd);
 	}
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
@@ -62,7 +62,6 @@ int	pipe_cmd(t_fd iofd, t_cmd_info cmd_info, char *argv[])
 			if (iofd.prev_fd != -1)
 				close(iofd.prev_fd);
 			iofd.prev_fd = pipe_fd[0];
-			close(pipe_fd[0]);
 			close(pipe_fd[1]);
 		}
 		cmd_info.argv_index++;
