@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 17:54:29 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/03 18:51:15 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/03 18:59:11 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,17 @@ t_fd	init_fd(char *infile, char *outfile, int here_doc)
 		if (tmp_fd != -1)
 			handle_here_doc(tmp_fd);
 		iofd.infile_fd = tmp_fd;
+		iofd.outfile_fd = open(outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	}
 	else
+	{
 		iofd.infile_fd = open(infile, O_RDONLY);
-	iofd.outfile_fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		iofd.outfile_fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	}
 	if (check_io_fd(iofd.infile_fd, iofd.outfile_fd) == -1)
 		handle_error("error open");
 	return (iofd);
 }
-
-
 
 int	check_io_fd(int infile_fd, int outfile_fd)
 {
