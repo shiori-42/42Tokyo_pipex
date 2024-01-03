@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 21:19:33 by syonekur          #+#    #+#             */
-/*   Updated: 2023/12/25 16:55:59 by syonekur         ###   ########.fr       */
+/*   Updated: 2023/12/29 16:50:00 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,24 @@ char	*find_envpath_list(void)
 		i++;
 	}
 	return (NULL);
+}
+
+char	*cat_cmd_path(char *path, char *cmd)
+{
+	size_t	path_len;
+	size_t	cmd_len;
+	char	*cat_cmd_path;
+
+	path_len = ft_strlen(path);
+	cmd_len = ft_strlen(cmd);
+	cat_cmd_path = malloc(path_len + cmd_len + 2);
+	if (!cat_cmd_path)
+		return (NULL);
+	ft_strlcpy(cat_cmd_path, path, path_len + 1);
+	cat_cmd_path[path_len] = '/';
+	ft_strlcpy(cat_cmd_path + path_len + 1, cmd, cmd_len + 1);
+	printf("%s\n", cat_cmd_path);
+	return (cat_cmd_path);
 }
 
 char	*find_cmd_path(char *cmd)
@@ -73,52 +91,10 @@ void	my_execve(char *argv_arg)
 	if (execve(cmdpath, cmd, environ) == -1)
 	{
 		perror("execve failed");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 	free(cmdpath);
 	free_memory(cmd);
 }
 
-int	first_child_process(int infile_fd, int pipe_fd[2], char **argv)
-{
-	pid_t	pid;
 
-	pid = fork();
-	if (pid == -1)
-		return (-1);
-	else if (pid == 0)
-	{
-		dup2(infile_fd, STDIN_FILENO);
-		close(infile_fd);
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		my_execve(argv[2]);
-		perror("execve");
-		exit(EXIT_FAILURE);
-	}
-	return (pid);
-}
-
-int	second_child_process(int outfile_fd, int pipe_fd[2], char **argv)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		return (-1);
-	}
-	else if (pid == 0)
-	{
-		dup2(pipe_fd[0], STDIN_FILENO);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		dup2(outfile_fd, STDOUT_FILENO);
-		close(outfile_fd);
-		my_execve(argv[3]);
-		perror("execve");
-		exit(EXIT_FAILURE);
-	}
-	return (pid);
-}

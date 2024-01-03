@@ -2,7 +2,7 @@ CC=cc
 CFLAGS=-Wall -Wextra -Werror
 
 LIBFT=libft/libft.a
-SRCFILES=main.c utils2.c
+SRCFILES=main.c utils.c pipe.c
 
 OBJS=$(SRCFILES:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 18:32:59 by syonekur          #+#    #+#             */
-/*   Updated: 2023/12/29 19:00:44 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/03 16:10:10 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,25 @@ typedef struct s_fd
 {
 	int		infile_fd;
 	int		outfile_fd;
+	int		prev_fd;
 }			t_fd;
 
+typedef struct s_cmd_info
+{
+	int		argv_index;
+	int		argc;
+	int		here_doc;
+}			t_cmd_info;
+
+void		do_child_process(int *pipe_fd, t_fd iofd, char **argv,
+				t_cmd_info cmd_info);
+int			pipe_cmd(t_fd iofd, t_cmd_info cmd_info, char *argv[]);
 char		*find_envpath_list(void);
+char		*cat_cmd_path(char *path, char *cmd);
 char		*find_cmd_path(char *cmd);
 void		my_execve(char *argv_arg);
-// int			first_child_process(int infile_fd, int pipe_fd[2], char **argv);
-// int			second_child_process(int outfile_fd, int pipe_fd[2],
-char		*cat_cmd_path(char *path, char *cmd);
 void		free_memory(char **str);
-void		first_child(int infile_fd, int pipe_fd[2], char **argv);
-void		last_child(int outfile_fd, int pipe_fd[2], char **argv);
-void		fork_cmd(int iofile_fd, int pipe_fd[2], char **argv,
-				int fork_status);
+void		handle_error(char *msg);
+int			check_io_fd(int infile_fd, int outfile_fd);
 
 #endif
