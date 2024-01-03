@@ -6,27 +6,13 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 21:49:20 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/03 17:06:32 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/03 17:33:41 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	ft_strlen_s( char *s)
-{
-	size_t	len;
-
-	if (s == NULL)
-		return (0);
-	len = 0;
-	while (s[len])
-	{
-		len++;
-	}
-	return (len);
-}
-
-size_t	ft_strlcpy(char *dest,  char *src, size_t dest_size)
+size_t	ft_strlcpy(char *dest, char *src, size_t dest_size)
 {
 	size_t	src_size;
 	size_t	i;

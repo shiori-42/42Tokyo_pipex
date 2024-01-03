@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 20:00:19 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/03 17:18:27 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/03 17:33:01 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ char				*get_line(char **string);
 char				*get_line(char **string);
 ssize_t				read_from_fd(int fd, char **string);
 char				*get_next_line(int fd);
-static void	ft_strdel(char **str);
-size_t	ft_strlen_s( char *s);
+size_t				ft_strlen_s(char *s);
 
 #endif
