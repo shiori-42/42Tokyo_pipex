@@ -6,6 +6,7 @@ SRCFILES=main.c utils.c pipe.c
 
 OBJS=$(SRCFILES:.c=.o)
 
+
 NAME=pipex
 
 all: $(NAME)
@@ -28,6 +29,8 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+bonus:all
 
 .PHONY: all clean fclean re
 

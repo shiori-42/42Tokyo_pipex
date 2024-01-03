@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 17:54:29 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/03 15:11:27 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/03 18:51:15 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,26 +63,7 @@ t_fd	init_fd(char *infile, char *outfile, int here_doc)
 	return (iofd);
 }
 
-void	handle_error(char *msg)
-{
-	perror(msg);
-	exit(1);
-}
 
-void	free_memory(char **str)
-{
-	int	i;
-
-	i = 0;
-	if (str == NULL)
-		return ;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
-}
 
 int	check_io_fd(int infile_fd, int outfile_fd)
 {

@@ -6,11 +6,17 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:43:25 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/03 18:38:17 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/03 18:52:48 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	handle_error(char *msg)
+{
+	perror(msg);
+	exit(1);
+}
 
 void	do_child_process(int *pipe_fd, t_fd iofd, char **argv,
 		t_cmd_info cmd_info)
@@ -46,7 +52,7 @@ int	pipe_cmd(t_fd iofd, t_cmd_info cmd_info, char *argv[])
 	int	pid;
 
 	iofd.prev_fd = -1;
-	while (cmd_info.argv_index < cmd_info.argc-1)
+	while (cmd_info.argv_index < cmd_info.argc - 1)
 	{
 		if (pipe(pipe_fd) == -1)
 			handle_error("pipe");
@@ -54,9 +60,7 @@ int	pipe_cmd(t_fd iofd, t_cmd_info cmd_info, char *argv[])
 		if (pid == -1)
 			handle_error("fork");
 		if (pid == 0)
-		{
 			do_child_process(pipe_fd, iofd, argv, cmd_info);
-		}
 		else
 		{
 			if (iofd.prev_fd != -1)

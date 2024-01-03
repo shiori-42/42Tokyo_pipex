@@ -12,6 +12,21 @@
 
 #include "pipex.h"
 
+void	free_memory(char **str)
+{
+	int	i;
+
+	i = 0;
+	if (str == NULL)
+		return ;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+}
+
 char	*find_envpath_list(void)
 {
 	int	i;
@@ -96,5 +111,3 @@ void	my_execve(char *argv_arg)
 	free(cmdpath);
 	free_memory(cmd);
 }
-
-
