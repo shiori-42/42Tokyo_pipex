@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 20:00:19 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/03 17:33:01 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/04 13:37:31 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,6 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 t_list				*ft_lstnew(void *content);
 int					ft_lstsize(t_list *lst);
 void				ft_lstiter(t_list *lst, void (*f)(void *));
-char				*get_line(char **string);
-char				*get_line(char **string);
-ssize_t				read_from_fd(int fd, char **string);
-char				*get_next_line(int fd);
 size_t				ft_strlen_s(char *s);
 
 #endif

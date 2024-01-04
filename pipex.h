@@ -6,13 +6,15 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 18:32:59 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/03 16:10:10 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/04 13:43:29 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
+# include "libft/ft_printf/ft_printf.h"
+# include "libft/get_next_line/get_next_line.h"
 # include "libft/libft.h"
 # include <fcntl.h>
 # include <stdio.h>

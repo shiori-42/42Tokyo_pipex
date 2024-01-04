@@ -55,7 +55,6 @@ char	*cat_cmd_path(char *path, char *cmd)
 	ft_strlcpy(cat_cmd_path, path, path_len + 1);
 	cat_cmd_path[path_len] = '/';
 	ft_strlcpy(cat_cmd_path + path_len + 1, cmd, cmd_len + 1);
-	// printf("%s\n", cat_cmd_path);
 	return (cat_cmd_path);
 }
 
@@ -98,23 +97,18 @@ void	my_execve(char *argv_arg)
 	if (cmd == NULL || cmd[0] == NULL)
 		return ;
 	cmdpath = find_cmd_path(cmd[0]);
-	// if (cmdpath == NULL)
-	// {
-	// 	free_memory(cmd);
-	// 	return ;
-	// }
 	if (access(cmd[0], X_OK) == 0)
 	{
 		if (execve(cmd[0], cmd, environ) == -1)
 		{
-			// printf("%s : command not found\n", *cmd);
+			ft_printf("%s : command not found\n", *cmd);
 			perror("execve failed");
 			exit(1);
 		}
 	}
 	else if (execve(cmdpath, cmd, environ) == -1)
 	{
-		// printf("%s : command not found\n", *cmd);
+		ft_printf("%s : command not found\n", *cmd);
 		perror("execve failed");
 		exit(1);
 	}

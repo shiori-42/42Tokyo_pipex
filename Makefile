@@ -2,7 +2,7 @@ CC=cc
 CFLAGS=-Wall -Wextra -Werror
 
 LIBFT=libft/libft.a
-SRCFILES=main.c utils.c pipe.c
+SRCFILES=main.c execve.c pipe.c
 
 OBJS=$(SRCFILES:.c=.o)
 
@@ -11,11 +11,14 @@ NAME=pipex
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) -I. -I./libft  -o $(NAME) $(OBJS) -L ./libft -lft
+$(NAME): $(LIBFT) $(FT_PRINTF) $(OBJS)
+	$(CC) $(CFLAGS) -I. -I./libft  -o $(NAME) $(OBJS) -L ./libft -lft 
 
 $(LIBFT):
 	make -C libft
+
+$(FT_PRINTF):
+	make -C ft_printf
 
 %.o: %.c
 	$(CC) $(CFLAGS) -I. -I./libft -c $< -o $@
