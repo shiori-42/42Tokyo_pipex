@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 18:32:59 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/04 13:26:30 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/04 14:43:40 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ int		handle_lowhex(va_list args);
 int		handle_upperhex(va_list args);
 int		handle_percent_symbol(va_list args);
 
-int		ft_printf( char *format, ...);
+int		ft_printf(char *format, ...);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 23:09:03 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/04 13:26:02 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/04 14:42:31 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,7 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
+
+char	*get_next_line(int fd);
 
 #endif

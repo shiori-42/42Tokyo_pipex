@@ -77,6 +77,8 @@ char	*find_cmd_path(char *cmd)
 		cmd_path = cat_cmd_path(path[i], cmd);
 		if (cmd_path == NULL)
 			return (NULL);
+		if (access(cmd_path, F_OK) == 0 && access(cmd_path, X_OK) == -1)
+			handle_error(NULL);
 		if (access(cmd_path, X_OK) == 0)
 			return (cmd_path);
 		free(cmd_path);
@@ -96,22 +98,14 @@ void	my_execve(char *argv_arg)
 	cmd = ft_split(argv_arg, ' ');
 	if (cmd == NULL || cmd[0] == NULL)
 		return ;
-	cmdpath = find_cmd_path(cmd[0]);
 	if (access(cmd[0], X_OK) == 0)
 	{
 		if (execve(cmd[0], cmd, environ) == -1)
-		{
-			ft_printf("%s : command not found\n", *cmd);
-			perror("execve failed");
-			exit(1);
-		}
+			handle_error("execve");
 	}
-	else if (execve(cmdpath, cmd, environ) == -1)
-	{
-		ft_printf("%s : command not found\n", *cmd);
-		perror("execve failed");
-		exit(1);
-	}
+	cmdpath = find_cmd_path(cmd[0]);
+	if (execve(cmdpath, cmd, environ) == -1)
+		handle_error("execve");
 	free(cmdpath);
 	free_memory(cmd);
 }
