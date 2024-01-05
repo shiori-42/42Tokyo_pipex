@@ -6,13 +6,13 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 23:33:10 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/03 17:16:43 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/05 19:18:27 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen_s( char *s)
+size_t	ft_strlen_s(char *s)
 {
 	size_t	len;
 
@@ -26,7 +26,7 @@ size_t	ft_strlen_s( char *s)
 	return (len);
 }
 
-char	*ft_strjoin(char  *s1, char  *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	pre_len;
 	size_t	suf_len;

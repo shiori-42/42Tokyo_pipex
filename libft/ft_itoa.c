@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 19:46:49 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/03 17:06:32 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/05 19:17:11 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ static int	cnt_size(int c)
 
 char	*ft_itoa(int c)
 {
-	int			sign;
-	int			size;
-	char		*ptr;
-	 char	*s1;
+	int		sign;
+	int		size;
+	char	*ptr;
+	char	*s1;
 
 	if (c == -2147483648)
 	{

@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 23:13:15 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/03 17:20:08 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/05 19:19:49 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	*get_line(char **string)
 	}
 	return (line);
 }
-
 
 static void	ft_strdel(char **str)
 {

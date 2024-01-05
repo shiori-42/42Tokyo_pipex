@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
- char*	check_cmd_status(char **path, char *cmd)
+char	*check_cmd_status(char **path, char *cmd)
 {
 	int		i;
 	char	*cmd_path;

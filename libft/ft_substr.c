@@ -6,13 +6,13 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 22:22:01 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/03 17:06:32 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/05 19:19:37 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char  *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	size_t	s_size;
 	char	*ptr;
@@ -43,7 +43,7 @@ char	*ft_substr(char  *s, unsigned int start, size_t len)
 // {
 // 	char	*s2;
 
-// 	 char s1[] = "Hello everyone!!";
+// 		char s1[] = "Hello everyone!!";
 // 	s2 = ft_substr(s1, 1, 8);
 // 	if (!s2)
 // 	{
