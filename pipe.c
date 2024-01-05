@@ -6,11 +6,26 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:43:25 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/03 18:52:48 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/05 17:14:08 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	free_memory(char **str)
+{
+	int	i;
+
+	i = 0;
+	if (str == NULL)
+		return ;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+}
 
 void	handle_error(char *msg)
 {
@@ -18,8 +33,8 @@ void	handle_error(char *msg)
 	exit(1);
 }
 
-void	do_child_process(int *pipe_fd, t_fd iofd, char **argv,
-		t_cmd_info cmd_info)
+void	do_child_process(int *pipe_fd, t_fd iofd, t_cmd_info cmd_info,
+		char **argv)
 {
 	if ((cmd_info.here_doc == 0 && cmd_info.argv_index == 2)
 		|| (cmd_info.here_doc == 1 && cmd_info.argv_index == 3))
@@ -60,7 +75,7 @@ int	pipe_cmd(t_fd iofd, t_cmd_info cmd_info, char *argv[])
 		if (pid == -1)
 			handle_error("fork");
 		if (pid == 0)
-			do_child_process(pipe_fd, iofd, argv, cmd_info);
+			do_child_process(pipe_fd, iofd, cmd_info, argv);
 		else
 		{
 			if (iofd.prev_fd != -1)

@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 17:54:29 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/04 14:41:19 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/05 18:48:32 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ int	open_tmp_file(void)
 	int	tmp_fd;
 
 	tmp_fd = open("/tmp/here_doc_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (tmp_fd < 0)
-		handle_error("error creating temp file for here_doc");
+	if (tmp_fd == -1)
+		handle_error("Error: creating temp file for here_doc");
 	return (tmp_fd);
 }
 
-void	handle_here_doc(int tmp_fd)
+int	handle_here_doc(int tmp_fd)
 {
 	char	*line;
 
@@ -39,8 +39,9 @@ void	handle_here_doc(int tmp_fd)
 	}
 	close(tmp_fd);
 	tmp_fd = open("/tmp/here_doc_tmp", O_RDONLY);
-	if (tmp_fd < 0)
-		handle_error("error reopening temp file for here_doc");
+	if (tmp_fd == -1)
+		handle_error("Error: reopening temp file for here_doc");
+	return (tmp_fd);
 }
 
 t_fd	init_fd(char *infile, char *outfile, int here_doc)
@@ -51,9 +52,7 @@ t_fd	init_fd(char *infile, char *outfile, int here_doc)
 	if (here_doc)
 	{
 		tmp_fd = open_tmp_file();
-		if (tmp_fd != -1)
-			handle_here_doc(tmp_fd);
-		iofd.infile_fd = tmp_fd;
+		iofd.infile_fd = handle_here_doc(tmp_fd);
 		iofd.outfile_fd = open(outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	}
 	else
@@ -61,12 +60,12 @@ t_fd	init_fd(char *infile, char *outfile, int here_doc)
 		iofd.infile_fd = open(infile, O_RDONLY);
 		iofd.outfile_fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
-	if (check_io_fd(iofd.infile_fd, iofd.outfile_fd) == -1)
-		handle_error("error open");
+	if (check_iofd(iofd.infile_fd, iofd.outfile_fd) == -1)
+		handle_error(NULL);
 	return (iofd);
 }
 
-int	check_io_fd(int infile_fd, int outfile_fd)
+int	check_iofd(int infile_fd, int outfile_fd)
 {
 	if (infile_fd == -1 && outfile_fd == -1)
 		return (-1);
@@ -91,7 +90,7 @@ int	main(int argc, char *argv[])
 	int			here_doc;
 
 	if (argc < 5)
-		handle_error("error args count");
+		handle_error("Error: A minimum of 5 arguments are required.\n");
 	here_doc = (ft_strncmp(argv[1], "here_doc", 8) == 0);
 	argv_index = 2 + here_doc;
 	iofd = init_fd(argv[argv_index - 1], argv[argc - 1], here_doc);
