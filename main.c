@@ -94,7 +94,7 @@ int	main(int argc, char *argv[])
 	int			here_doc;
 
 	if (argc < 5)
-		exit(EXIT_FAILURE);;
+		handle_error("At least 5 arguments are required\n");
 	here_doc = (ft_strncmp(argv[1], "here_doc", 8) == 0);
 	argv_index = 2 + here_doc;
 	iofd = init_fd(argv[argv_index - 1], argv[argc - 1], here_doc);
