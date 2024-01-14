@@ -48,6 +48,8 @@ void		my_execve(char *argv_arg);
 void		free_memory(char **str);
 void		handle_error(char *msg);
 void		free_memory(char **str);
-int			check_iofd(int infile_fd, int outfile_fd);
+int			check_iofd(int infile_fd, int outfile_fd, char *infile,
+				char *outfile);
+char		*check_cmd_status(char **path, char *cmd);
 
 #endif

@@ -30,7 +30,7 @@ void	free_memory(char **str)
 void	handle_error(char *msg)
 {
 	perror(msg);
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 void	do_child_process(int *pipe_fd, t_fd iofd, t_cmd_info cmd_info,

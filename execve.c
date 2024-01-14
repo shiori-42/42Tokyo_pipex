@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-char	*check_cmd_status(char **path, char *cmd)
+char	*check_cmd_status(char **path, charls *cmd)
 {
 	int		i;
 	char	*cmd_path;
@@ -22,9 +22,9 @@ char	*check_cmd_status(char **path, char *cmd)
 	{
 		cmd_path = cat_cmd_path(path[i], cmd);
 		if (cmd_path == NULL)
-			handle_error("Error: arocate memory");
+			exit(EXIT_FAILURE);;
 		if (access(cmd_path, F_OK) == 0 && access(cmd_path, X_OK) == -1)
-			handle_error("Error: permission denied");
+			exit(EXIT_FAILURE);
 		if (access(cmd_path, X_OK) == 0)
 		{
 			free_memory(path);
@@ -72,15 +72,13 @@ char	*find_cmd_path(char *cmd)
 {
 	char	**path;
 	char	*cmd_path_list;
-	int		i;
 
-	i = 0;
 	cmd_path_list = find_envpath_list();
 	if (cmd_path_list == NULL)
-		handle_error("Error: PATH is not found");
+		exit(EXIT_FAILURE);
 	path = ft_split(cmd_path_list, ':');
 	if (path == NULL || path[0] == NULL)
-		handle_error("Error: arocate memory");
+		exit(EXIT_FAILURE);
 	return (check_cmd_status(path, cmd));
 }
 
@@ -89,19 +87,26 @@ void	my_execve(char *argv_str)
 	char	**cmd;
 	char	*cmdpath;
 
-	if (argv_str == NULL)
-		handle_error("Error: command is none.");
 	cmd = ft_split(argv_str, ' ');
 	if (cmd == NULL || cmd[0] == NULL)
-		handle_error("Error: arocate memory");
-	if (access(cmd[0], X_OK) == 0)
+		exit(EXIT_FAILURE);
+	if (ft_strncmp(cmd[0], "/", 1) == 0 || ft_strncmp(cmd[0], "./", 2) == 0)
 	{
-		if (execve(cmd[0], cmd, environ) == -1)
+		if (access(cmd[0], X_OK) == 0)
+		{
+			if (execve(cmd[0], cmd, environ) == -1)
+				handle_error("execve");
+		}
+	}
+	else
+	{
+		cmdpath = find_cmd_path(cmd[0]);
+		if (cmdpath == NULL)
+		{
+			write(2, "command not found\n", 18);
+			exit(EXIT_FAILURE);
+		}
+		if (execve(cmdpath, cmd, environ) == -1)
 			handle_error("execve");
 	}
-	cmdpath = find_cmd_path(cmd[0]);
-	if (cmdpath == NULL)
-		perror("Error: commandpath is invalid.");
-	if (execve(cmdpath, cmd, environ) == -1)
-		handle_error("execve");
 }
