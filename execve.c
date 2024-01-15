@@ -22,7 +22,7 @@ char	*check_cmd_status(char **path, char *cmd)
 	{
 		cmd_path = cat_cmd_path(path[i], cmd);
 		if (cmd_path == NULL)
-			exit(EXIT_FAILURE);;
+			exit(EXIT_FAILURE);
 		if (access(cmd_path, F_OK) == 0 && access(cmd_path, X_OK) == -1)
 			exit(EXIT_FAILURE);
 		if (access(cmd_path, X_OK) == 0)

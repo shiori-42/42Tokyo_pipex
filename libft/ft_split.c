@@ -6,86 +6,101 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 13:51:56 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/05 19:17:56 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/15 20:04:08 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	cnt_words(char *s, char sep)
+int	count_words(char *s, char c)
 {
-	int	cnt;
+	int	words;
+	int	i;
 
-	cnt = 0;
-	while (*s)
+	words = 0;
+	i = 0;
+	while (s[i] != '\0')
 	{
-		while (*s && (*s == sep))
-			s++;
-		if (*s)
-		{
-			cnt++;
-			while (*s && (*s != sep))
-				s++;
-		}
+		if (s[i] != c)
+			words++;
+		while (s[i] != c && s[i] != '\0')
+			i++;
+		while (s[i] == c && s[i] != '\0')
+			i++;
 	}
-	return (cnt);
+	return (words);
 }
 
-static char	*free_words(char **words, int i)
+char	*make_malloc_s_split(char *s, int word_length)
+{
+	int		i;
+	char	*word;
+
+	word = (char *)malloc(sizeof(char) * (word_length + 1));
+	if (word == NULL)
+		return (NULL);
+	i = 0;
+	while (i < word_length)
+	{
+		word[i] = s[i];
+		i++;
+	}
+	word[word_length] = '\0';
+	return (word);
+}
+
+void	*free_words(char **words_array, int i)
 {
 	while (i >= 0)
 	{
-		free(words[i]);
+		free(words_array[i]);
 		i--;
 	}
-	free(words);
-	return (0);
+	free(words_array);
+	return (NULL);
 }
 
-static char	*next_word(char *s, char sep)
+char	**set_word(char *s, char c, char **words_array, int s_words)
 {
-	while (*s && *s == sep)
-		s++;
-	return (s);
-}
+	int	word_length;
+	int	j;
+	int	i;
 
-static size_t	word_len(char *s, char c)
-{
-	size_t	len;
-
-	len = 0;
-	while (s[len] && s[len] != c)
-		len++;
-	return (len);
+	j = 0;
+	i = 0;
+	word_length = 0;
+	while (i < s_words)
+	{
+		while (s[j] == c && s[j] != '\0')
+			j++;
+		word_length = 0;
+		while (s[j] != c && s[j] != '\0')
+		{
+			word_length++;
+			j++;
+		}
+		words_array[i] = make_malloc_s_split(&s[j - word_length], word_length);
+		if (words_array[i] == NULL)
+			free_words(words_array, i - 1);
+		i++;
+	}
+	return (words_array);
 }
 
 char	**ft_split(char *s, char c)
 {
-	char	**result;
-	int		i;
-	int		word_cnt;
+	char	**words_array;
+	int		s_words;
 
 	if (s == NULL)
 		return (NULL);
-	word_cnt = cnt_words(s, c);
-	result = malloc((word_cnt + 1) * sizeof(char *));
-	if (!result)
+	s_words = count_words(s, c);
+	words_array = (char **)malloc(sizeof(char *) * (s_words + 1));
+	if (words_array == NULL)
 		return (NULL);
-	i = 0;
-	while (i < word_cnt)
-	{
-		s = next_word(s, c);
-		result[i] = ft_substr(s, 0, word_len(s, c));
-		if (!result[i])
-		{
-			free_words(result, i - 1);
-			return (NULL);
-		}
-		s += word_len(s, c);
-		i++;
-	}
-	result[i] = NULL;
-	return (result);
+	set_word(s, c, words_array, s_words);
+	words_array[s_words] = NULL;
+	return (words_array);
 }
 
 // int	main(void)

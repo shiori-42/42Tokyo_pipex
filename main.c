@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 17:54:29 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/05 18:48:32 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/15 20:04:39 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	open_tmp_file(void)
 
 	tmp_fd = open("/tmp/here_doc_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (tmp_fd == -1)
-		exit(EXIT_FAILURE);;
+		exit(EXIT_FAILURE);
 	return (tmp_fd);
 }
 
@@ -40,23 +40,23 @@ int	handle_here_doc(int tmp_fd)
 	close(tmp_fd);
 	tmp_fd = open("/tmp/here_doc_tmp", O_RDONLY);
 	if (tmp_fd == -1)
-		exit(EXIT_FAILURE);;
+		exit(EXIT_FAILURE);
 	return (tmp_fd);
 }
 
-int check_iofd(int infile_fd, int outfile_fd, char *infile, char *outfile)
+int	check_iofd(int infile_fd, int outfile_fd, char *infile, char *outfile)
 {
-    if (infile_fd == -1)
-    {
-        perror(infile);
-        return (-1);
-    }
-    else if (outfile_fd == -1)
-    {
-        perror(outfile);
-        return (-1);
-    }
-    return (0);
+	if (infile_fd == -1)
+	{
+		perror(infile);
+		return (-1);
+	}
+	else if (outfile_fd == -1)
+	{
+		perror(outfile);
+		return (-1);
+	}
+	return (0);
 }
 
 t_fd	init_fd(char *infile, char *outfile, int here_doc)
@@ -76,13 +76,13 @@ t_fd	init_fd(char *infile, char *outfile, int here_doc)
 		iofd.outfile_fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
 	if (check_iofd(iofd.infile_fd, iofd.outfile_fd, infile, outfile) == -1)
-    {
-        if (iofd.infile_fd != -1)
+	{
+		if (iofd.infile_fd != -1)
 			close(iofd.infile_fd);
-        if (iofd.outfile_fd != -1)
+		if (iofd.outfile_fd != -1)
 			close(iofd.outfile_fd);
-        exit(EXIT_FAILURE);
-    }
+		exit(EXIT_FAILURE);
+	}
 	return (iofd);
 }
 
@@ -94,7 +94,10 @@ int	main(int argc, char *argv[])
 	int			here_doc;
 
 	if (argc < 5)
-		handle_error("At least 5 arguments are required\n");
+	{
+		write(2, "At least 5 arguments are required\n", 34);
+		exit(EXIT_FAILURE);
+	}
 	here_doc = (ft_strncmp(argv[1], "here_doc", 8) == 0);
 	argv_index = 2 + here_doc;
 	iofd = init_fd(argv[argv_index - 1], argv[argc - 1], here_doc);
@@ -105,5 +108,3 @@ int	main(int argc, char *argv[])
 		return (-1);
 	return (0);
 }
-
-
