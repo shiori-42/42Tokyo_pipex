@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 17:54:29 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/15 20:04:39 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/17 21:13:39 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,21 +90,17 @@ int	main(int argc, char *argv[])
 {
 	t_fd		iofd;
 	t_cmd_info	cmd_info;
-	int			argv_index;
-	int			here_doc;
+	int			is_here_doc;
+	char		**cmds;
 
 	if (argc < 5)
 	{
-		write(2, "At least 5 arguments are required\n", 34);
+		write(STDERR_FILENO, "At least 5 arguments are required\n", 34);
 		exit(EXIT_FAILURE);
 	}
-	here_doc = (ft_strncmp(argv[1], "here_doc", 8) == 0);
-	argv_index = 2 + here_doc;
-	iofd = init_fd(argv[argv_index - 1], argv[argc - 1], here_doc);
-	cmd_info.argc = argc;
-	cmd_info.argv_index = argv_index;
-	cmd_info.here_doc = here_doc;
-	if (pipe_cmd(iofd, cmd_info, argv) != 0)
+	is_here_doc = (ft_strcmp(argv[1], "here_doc", ft_strlen("here_doc")) == 0);
+	argv_index = 2 + is_here_doc;
+	if (pipe_cmd(argv,argv_index,is_here_doc) != 0)
 		return (-1);
 	return (0);
 }

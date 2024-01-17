@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 18:32:59 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/05 17:59:33 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:35:55 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include "libft/get_next_line/get_next_line.h"
 # include "libft/libft.h"
 # include <fcntl.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
