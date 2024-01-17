@@ -84,26 +84,24 @@ char	*find_cmd_path(char *cmd)
 
 void	my_execve(char *argv_str)
 {
-	char	**cmd;
-	char	*cmdpath;
+	char **cmd;
+	char *cmdpath;
 
 	cmd = ft_split(argv_str, ' ');
 	if (cmd == NULL || cmd[0] == NULL)
 		exit(EXIT_FAILURE);
-	if (ft_strncmp(cmd[0], "/", 1) == 0 || ft_strncmp(cmd[0], "./", 2) == 0)
+	if (ft_strchr(cmd[0], '/') != NULL)
 	{
-		if (access(cmd[0], X_OK) == 0)
-		{
-			if (execve(cmd[0], cmd, environ) == -1)
-				handle_error("execve");
-		}
+		if (execve(cmd[0], cmd, environ) == -1)
+			handle_error("execve");
 	}
 	else
 	{
 		cmdpath = find_cmd_path(cmd[0]);
 		if (cmdpath == NULL)
 		{
-			write(2, "command not found\n", 18);
+			// print_error("command not found");
+			write(STDERR_FILENO, "command not found\n", 18);
 			exit(EXIT_FAILURE);
 		}
 		if (execve(cmdpath, cmd, environ) == -1)
