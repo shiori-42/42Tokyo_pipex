@@ -66,9 +66,9 @@ char	*find_cmd_path(char *cmd)
 	splited_path = ft_split(path_list, ':');
 	if (splited_path == NULL || splited_path[0] == NULL)
 		exit(EXIT_FAILURE);
-	execute_path=check_cmd_execute(splited_path, cmd);
+	execute_path = check_cmd_execute(splited_path, cmd);
 	free(splited_path);
-	return(execute_path);
+	return (execute_path);
 }
 
 void	my_execve(char *argv_cmd)
@@ -89,7 +89,6 @@ void	my_execve(char *argv_cmd)
 		cmdpath = find_cmd_path(cmd[0]);
 		if (cmdpath == NULL)
 		{
-			// print_error("command not found");
 			write(STDERR_FILENO, "command not found\n", 18);
 			exit(EXIT_FAILURE);
 		}

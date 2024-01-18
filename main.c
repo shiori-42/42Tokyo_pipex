@@ -11,7 +11,7 @@ int	open_tmp_file(void)
 	return (tmp_fd);
 }
 
-int	handle_heredoc(int tmp_fd,char *limiter)
+int	handle_heredoc(int tmp_fd, char *limiter)
 {
 	char	*line;
 
@@ -41,7 +41,7 @@ int	open_input_file(char *argv[], int argv_index, int is_here_doc)
 	if (is_here_doc)
 	{
 		tmp_fd = open_tmp_file();
-		in_fd = handle_heredoc(tmp_fd,argv[2]);
+		in_fd = handle_heredoc(tmp_fd, argv[2]);
 	}
 	else
 	{
@@ -62,18 +62,19 @@ int	open_output_file(char *argv[], int argv_index, int is_here_doc)
 	else
 		out_fd = open(argv[argv_index + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (out_fd == -1)
-		handle_error(argv[argv_index +1]);
+		handle_error(argv[argv_index + 1]);
 	return (out_fd);
 }
 
 int	main(int argc, char *argv[])
 {
-	int		is_heredoc;
-	int		argv_index;
+	int	is_heredoc;
+	int	argv_index;
 
 	if (argc < 5)
 	{
-		write(STDERR_FILENO, "Usage: ./pipex infile cmd1 cmd2 ... outfile\n", 44);
+		write(STDERR_FILENO, "Usage: ./pipex infile cmd1 cmd2 ... outfile\n",
+			44);
 		exit(EXIT_FAILURE);
 	}
 	is_heredoc = (ft_strncmp(argv[1], "here_doc", ft_strlen("here_doc")) == 0);
