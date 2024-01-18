@@ -1,3 +1,8 @@
+
+
+
+
+
 #include "pipex.h"
 
 void	free_memory(char **str)

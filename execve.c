@@ -1,5 +1,10 @@
 
 
+
+
+
+
+
 #include "pipex.h"
 
 char	*check_cmd_execute(char **path, char *cmd)
