@@ -80,6 +80,6 @@ int	main(int argc, char *argv[])
 	is_heredoc = (ft_strncmp(argv[1], "here_doc", ft_strlen("here_doc")) == 0);
 	argv_index = 2 + is_heredoc;
 	if (pipe_cmd(argv, argv_index, is_heredoc) != 0)
-		return (1);
-	return (0);
+		return (FAILURE);
+	return (SUCCESS);
 }

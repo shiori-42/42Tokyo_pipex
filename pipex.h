@@ -14,6 +14,8 @@
 # define PIPEX_H
 
 # define OPEN_ERROR -1
+# define SUCCESS 0
+# define FAILURE 1
 
 # include "libft/ft_printf/ft_printf.h"
 # include "libft/get_next_line/get_next_line.h"
@@ -40,6 +42,5 @@ char		*cat_cmd_path(char *path, char *cmd);
 char		*find_envpath_list(void);
 char		*check_cmd_execute(char **path, char *cmd);
 void		write_error_and_exit(char *msg);
-void		handle_error(char *msg);
-void		free_memory(char **str);
+
 #endif
