@@ -1,5 +1,8 @@
 
 
+
+
+
 #include "pipex.h"
 
 void	do_child_process(int *pipe_fd, char *argv[], int argv_index,
