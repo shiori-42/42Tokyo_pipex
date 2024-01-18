@@ -67,7 +67,7 @@ char	*find_cmd_path(char *cmd)
 	if (splited_path == NULL || splited_path[0] == NULL)
 		exit(EXIT_FAILURE);
 	execute_path = check_cmd_execute(splited_path, cmd);
-	free(splited_path);
+	free_memory(splited_path);
 	return (execute_path);
 }
 
@@ -88,10 +88,7 @@ void	my_execve(char *argv_cmd)
 	{
 		cmdpath = find_cmd_path(cmd[0]);
 		if (cmdpath == NULL)
-		{
-			write(STDERR_FILENO, "command not found\n", 18);
-			exit(EXIT_FAILURE);
-		}
+			write_error_and_exit("command not found\n");
 		if (execve(cmdpath, cmd, environ) == -1)
 			handle_error("execve");
 	}

@@ -72,11 +72,7 @@ int	main(int argc, char *argv[])
 	int	argv_index;
 
 	if (argc < 5)
-	{
-		write(STDERR_FILENO, "Usage: ./pipex infile cmd1 cmd2 ... outfile\n",
-			44);
-		exit(EXIT_FAILURE);
-	}
+		write_error_and_exit("Usage: ./pipex infile cmd1 cmd2 ... outfile\n");
 	is_heredoc = (ft_strncmp(argv[1], "here_doc", ft_strlen("here_doc")) == 0);
 	argv_index = 2 + is_heredoc;
 	if (pipe_cmd(argv, argv_index, is_heredoc) != 0)
