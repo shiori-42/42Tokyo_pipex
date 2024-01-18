@@ -34,7 +34,7 @@ int			pipe_cmd(char *argv[], int argv_index, int is_heredoc);
 int			do_parent_process(int *pipe_fd);
 void		do_child_process(int *pipe_fd, char *argv[], int argv_index,
 				int is_heredoc);
-void		handle_error(char *msg);
+void		perror_and_exit(char *msg);
 void		free_memory(char **str);
 void		my_execve(char *argv_cmd);
 char		*find_cmd_path(char *cmd);

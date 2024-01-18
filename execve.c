@@ -92,7 +92,7 @@ void	my_execve(char *argv_cmd)
 	if (ft_strchr(cmd[0], '/') != NULL)
 	{
 		if (execve(cmd[0], cmd, environ) == -1)
-			handle_error("execve");
+			perror_and_exit("execve");
 	}
 	else
 	{
@@ -100,6 +100,6 @@ void	my_execve(char *argv_cmd)
 		if (cmdpath == NULL)
 			write_error_and_exit("command not found\n");
 		if (execve(cmdpath, cmd, environ) == -1)
-			handle_error("execve");
+			perror_and_exit("execve");
 	}
 }

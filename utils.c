@@ -27,7 +27,7 @@ void	free_memory(char **str)
 	free(str);
 }
 
-void	handle_error(char *msg)
+void	perror_and_exit(char *msg)
 {
 	perror(msg);
 	exit(EXIT_FAILURE);
