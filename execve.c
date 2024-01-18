@@ -1,18 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 21:19:33 by syonekur          #+#    #+#             */
-/*   Updated: 2023/12/29 16:50:00 by syonekur         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "pipex.h"
 
-char	*check_cmd_status(char **path, char *cmd)
+char	*check_cmd_execute(char **path, char *cmd)
 {
 	int		i;
 	char	*cmd_path;
@@ -26,14 +16,10 @@ char	*check_cmd_status(char **path, char *cmd)
 		if (access(cmd_path, F_OK) == 0 && access(cmd_path, X_OK) == -1)
 			exit(EXIT_FAILURE);
 		if (access(cmd_path, X_OK) == 0)
-		{
-			free_memory(path);
 			return (cmd_path);
-		}
 		free(cmd_path);
 		i++;
 	}
-	free_memory(path);
 	return (NULL);
 }
 
@@ -70,24 +56,27 @@ char	*cat_cmd_path(char *path, char *cmd)
 
 char	*find_cmd_path(char *cmd)
 {
-	char	**path;
-	char	*cmd_path_list;
+	char	*path_list;
+	char	**splited_path;
+	char	*execute_path;
 
-	cmd_path_list = find_envpath_list();
-	if (cmd_path_list == NULL)
+	path_list = find_envpath_list();
+	if (path_list == NULL)
 		exit(EXIT_FAILURE);
-	path = ft_split(cmd_path_list, ':');
-	if (path == NULL || path[0] == NULL)
+	splited_path = ft_split(path_list, ':');
+	if (splited_path == NULL || splited_path[0] == NULL)
 		exit(EXIT_FAILURE);
-	return (check_cmd_status(path, cmd));
+	execute_path=check_cmd_execute(splited_path, cmd);
+	free(splited_path);
+	return(execute_path);
 }
 
-void	my_execve(char *argv_str)
+void	my_execve(char *argv_cmd)
 {
 	char **cmd;
 	char *cmdpath;
 
-	cmd = ft_split(argv_str, ' ');
+	cmd = ft_split(argv_cmd, ' ');
 	if (cmd == NULL || cmd[0] == NULL)
 		exit(EXIT_FAILURE);
 	if (ft_strchr(cmd[0], '/') != NULL)

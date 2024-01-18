@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/29 17:54:29 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/17 21:13:39 by syonekur         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "pipex.h"
 
@@ -16,20 +5,20 @@ int	open_tmp_file(void)
 {
 	int	tmp_fd;
 
-	tmp_fd = open("/tmp/here_doc_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (tmp_fd == -1)
+	tmp_fd = open("/tmp/heredoc_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (tmp_fd == OPEN_ERROR)
 		exit(EXIT_FAILURE);
 	return (tmp_fd);
 }
 
-int	handle_here_doc(int tmp_fd)
+int	handle_heredoc(int tmp_fd,char *limiter)
 {
 	char	*line;
 
 	while (1)
 	{
 		line = get_next_line(STDIN_FILENO);
-		if (!line || ft_strncmp(line, "LIMITER\n", 8) == 0)
+		if (!line || ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 		{
 			free(line);
 			break ;
@@ -38,69 +27,58 @@ int	handle_here_doc(int tmp_fd)
 		free(line);
 	}
 	close(tmp_fd);
-	tmp_fd = open("/tmp/here_doc_tmp", O_RDONLY);
+	tmp_fd = open("/tmp/heredoc_tmp", O_RDONLY);
 	if (tmp_fd == -1)
 		exit(EXIT_FAILURE);
 	return (tmp_fd);
 }
 
-int	check_iofd(int infile_fd, int outfile_fd, char *infile, char *outfile)
+int	open_input_file(char *argv[], int argv_index, int is_here_doc)
 {
-	if (infile_fd == -1)
-	{
-		perror(infile);
-		return (-1);
-	}
-	else if (outfile_fd == -1)
-	{
-		perror(outfile);
-		return (-1);
-	}
-	return (0);
-}
+	int	in_fd;
+	int	tmp_fd;
 
-t_fd	init_fd(char *infile, char *outfile, int here_doc)
-{
-	t_fd	iofd;
-	int		tmp_fd;
-
-	if (here_doc)
+	if (is_here_doc)
 	{
 		tmp_fd = open_tmp_file();
-		iofd.infile_fd = handle_here_doc(tmp_fd);
-		iofd.outfile_fd = open(outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		in_fd = handle_heredoc(tmp_fd,argv[2]);
 	}
 	else
 	{
-		iofd.infile_fd = open(infile, O_RDONLY);
-		iofd.outfile_fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		in_fd = open(argv[argv_index - 1], O_RDONLY);
+		if (in_fd == OPEN_ERROR)
+			handle_error(argv[argv_index - 1]);
 	}
-	if (check_iofd(iofd.infile_fd, iofd.outfile_fd, infile, outfile) == -1)
-	{
-		if (iofd.infile_fd != -1)
-			close(iofd.infile_fd);
-		if (iofd.outfile_fd != -1)
-			close(iofd.outfile_fd);
-		exit(EXIT_FAILURE);
-	}
-	return (iofd);
+	return (in_fd);
+}
+
+int	open_output_file(char *argv[], int argv_index, int is_here_doc)
+{
+	int	out_fd;
+
+	if (is_here_doc)
+		out_fd = open(argv[argv_index + 1], O_WRONLY | O_CREAT | O_APPEND,
+				0644);
+	else
+		out_fd = open(argv[argv_index + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (out_fd == -1)
+		handle_error(argv[argv_index +1]);
+	return (out_fd);
 }
 
 int	main(int argc, char *argv[])
 {
-	t_fd		iofd;
-	t_cmd_info	cmd_info;
-	int			is_here_doc;
-	char		**cmds;
+	int		is_heredoc;
+	int		argv_index;
 
 	if (argc < 5)
 	{
-		write(STDERR_FILENO, "At least 5 arguments are required\n", 34);
+		write(STDERR_FILENO, "Usage: ./pipex infile cmd1 cmd2 ... outfile\n", 44);
 		exit(EXIT_FAILURE);
 	}
-	is_here_doc = (ft_strcmp(argv[1], "here_doc", ft_strlen("here_doc")) == 0);
-	argv_index = 2 + is_here_doc;
-	if (pipe_cmd(argv,argv_index,is_here_doc) != 0)
-		return (-1);
+	is_heredoc = (ft_strncmp(argv[1], "here_doc", ft_strlen("here_doc")) == 0);
+	argv_index = 2 + is_heredoc;
+	if (pipe_cmd(argv, argv_index, is_heredoc) != 0)
+		return (1);
 	return (0);
 }

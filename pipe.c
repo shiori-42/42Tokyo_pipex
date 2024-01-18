@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/03 13:43:25 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/17 21:15:51 by syonekur         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "pipex.h"
 
@@ -34,15 +24,17 @@ void	handle_error(char *msg)
 }
 
 void	do_child_process(int *pipe_fd, char *argv[], int argv_index,
-		int is_here_doc)
+		int is_heredoc)
 {
 	int	fd_in;
 	int	fd_out;
+	int prev_fd;
 
-	fd_in = open_input_file(argv[argv_index], is_here_doc);
-	if ((is_here_doc == 0 && argv_index == 2) || (is_here_doc == 1
-			&& argv_index == 3))
+
+	prev_fd=pipe_fd[2];
+	if (argv_index == is_heredoc + 2)
 	{
+		fd_in = open_input_file(argv, argv_index, is_heredoc);
 		dup2(fd_in, STDIN_FILENO);
 		close(fd_in);
 	}
@@ -51,28 +43,34 @@ void	do_child_process(int *pipe_fd, char *argv[], int argv_index,
 		dup2(prev_fd, STDIN_FILENO);
 		close(prev_fd);
 	}
-	fd_out = open_output_file(argv[argc - 1], is_here_doc);
-	if (argv_index < argc - 2)
+	if (argv[argv_index + 2] != NULL)
 		dup2(pipe_fd[1], STDOUT_FILENO);
 	else
 	{
-		dup2(iofd.outfile_fd, STDOUT_FILENO);
-		close(iofd.outfile_fd);
+		fd_out = open_output_file(argv, argv_index, is_heredoc);
+		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
 	}
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	my_execve(argv[argv_index]);
 }
 
-int	pipe_cmd(char *argv[], int argv_index, int is_here_doc)
+int	do_parent_process(int *pipe_fd)
 {
-	int	i;
-	int	pipe_fd[2];
-	int	pid;
-	int	prev_fd;
+	if(pipe_fd[2]!=-1)
+		close(pipe_fd[2]);
+	pipe_fd[2] = pipe_fd[0];
+	close(pipe_fd[1]);
+	return 0;
+}
 
-	i = 0;
-	prev_fd = -1;
+int	pipe_cmd(char *argv[], int argv_index, int is_heredoc)
+{
+	int pipe_fd[3];
+	int pid;
+
+	pipe_fd[2]=-1;
 	while (argv[argv_index + 1] != NULL)
 	{
 		if (pipe(pipe_fd) == -1)
@@ -81,10 +79,12 @@ int	pipe_cmd(char *argv[], int argv_index, int is_here_doc)
 		if (pid == -1)
 			handle_error("fork");
 		if (pid == 0)
-			do_child_process(pipe[fd], argv, argv_index, is_here_doc);
+			do_child_process(pipe_fd, argv, argv_index, is_heredoc);
 		else
-			do_parent_process(pipe[fd], argv, argv_index, is_here_doc);
+			do_parent_process(pipe_fd);
 		argv_index++;
 	}
+	while (waitpid(-1, NULL, 0) != -1)
+		;
 	return (0);
 }
