@@ -12,13 +12,11 @@
 
 #include "pipex.h"
 
-void	do_child_process(int *pipe_fd, char *argv[], int argv_index,
-		int is_heredoc)
+void	set_stdin(int *pipe_fd, char *argv[], int argv_index, int is_heredoc)
 {
 	int	fd_in;
-	int	fd_out;
-	int	prev_fd;
 
+	int prev_fd;
 	prev_fd = pipe_fd[2];
 	if (argv_index == is_heredoc + 2)
 	{
@@ -31,7 +29,13 @@ void	do_child_process(int *pipe_fd, char *argv[], int argv_index,
 		dup2(prev_fd, STDIN_FILENO);
 		close(prev_fd);
 	}
-	if (argv[argv_index + 2] != NULL)
+}
+
+void	set_stdout(int *pipe_fd, char *argv[], int argv_index, int is_heredoc)
+{
+	int	fd_out;
+
+	if (argv[argv_index + 1] != NULL)
 		dup2(pipe_fd[1], STDOUT_FILENO);
 	else
 	{
@@ -39,6 +43,13 @@ void	do_child_process(int *pipe_fd, char *argv[], int argv_index,
 		dup2(fd_out, STDOUT_FILENO);
 		close(fd_out);
 	}
+}
+
+void	do_child_process(int *pipe_fd, char *argv[], int argv_index,
+		int is_heredoc)
+{
+	set_stdin(pipe_fd, argv, argv_index, is_heredoc);
+	set_stdout(pipe_fd, argv, argv_index, is_heredoc);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	my_execve(argv[argv_index]);
