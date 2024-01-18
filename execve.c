@@ -1,9 +1,14 @@
-
-
-
-
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execve.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/18 19:32:32 by syonekur          #+#    #+#             */
+/*   Updated: 2024/01/18 19:34:29 by syonekur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "pipex.h"
 
@@ -78,8 +83,8 @@ char	*find_cmd_path(char *cmd)
 
 void	my_execve(char *argv_cmd)
 {
-	char **cmd;
-	char *cmdpath;
+	char	**cmd;
+	char	*cmdpath;
 
 	cmd = ft_split(argv_cmd, ' ');
 	if (cmd == NULL || cmd[0] == NULL)

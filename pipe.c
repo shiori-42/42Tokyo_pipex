@@ -1,7 +1,14 @@
-
-
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/18 19:32:15 by syonekur          #+#    #+#             */
+/*   Updated: 2024/01/18 19:36:32 by syonekur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "pipex.h"
 
@@ -48,8 +55,8 @@ int	do_parent_process(int *pipe_fd)
 
 int	pipe_cmd(char *argv[], int argv_index, int is_heredoc)
 {
-	int pipe_fd[3];
-	int pid;
+	int	pipe_fd[3];
+	int	pid;
 
 	pipe_fd[2] = -1;
 	while (argv[argv_index + 1] != NULL)
