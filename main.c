@@ -25,11 +25,14 @@ int	open_tmp_file(void)
 int	handle_heredoc(int tmp_fd, char *limiter)
 {
 	char	*line;
+	size_t	limiter_len;
 
+	limiter_len = ft_strlen(limiter);
 	while (1)
 	{
 		line = get_next_line(STDIN_FILENO);
-		if (!line || ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		if (!line||(ft_strncmp(line, limiter, limiter_len) == 0
+				&& ft_strlen(line)-1 == limiter_len))
 		{
 			free(line);
 			break ;
