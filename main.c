@@ -6,7 +6,7 @@
 /*   By: syonekur <syonekur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 19:32:24 by syonekur          #+#    #+#             */
-/*   Updated: 2024/01/18 19:33:20 by syonekur         ###   ########.fr       */
+/*   Updated: 2024/01/26 21:26:50 by syonekur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	handle_heredoc(int tmp_fd, char *limiter)
 	while (1)
 	{
 		line = get_next_line(STDIN_FILENO);
-		if (!line||(ft_strncmp(line, limiter, limiter_len) == 0
-				&& ft_strlen(line)-1 == limiter_len))
+		if (!line || (ft_strncmp(line, limiter, limiter_len) == 0
+				&& ft_strlen(line) - 1 == limiter_len))
 		{
 			free(line);
 			break ;
